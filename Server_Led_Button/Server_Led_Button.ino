@@ -2,10 +2,10 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 
-const char* ssid = "TP-Link_38C6";
-const char* password = "3921284-B";
+const char* ssid = "network name";
+const char* password = "network password";
 
-const int output = 14; // Cambiado a GPIO 14 (D5)
+const int output = 14; //(D5)
 
 const char* PARAM_INPUT = "state";
 
@@ -44,7 +44,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   pinMode(output, OUTPUT);
-  digitalWrite(output, LOW); // Asegúrate de que el LED esté apagado al inicio
+  digitalWrite(output, LOW);
 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -52,7 +52,7 @@ void setup() {
       Serial.println("Connecting to WiFi...");
   }
   
-  Serial.println(WiFi.localIP()); // Imprime la dirección IP local del ESP8266
+  Serial.println(WiFi.localIP()); 
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
       request->send_P(200, "text/html", index_html);
@@ -63,9 +63,9 @@ void setup() {
       if (request->hasParam(PARAM_INPUT)) {
           inputMessage = request->getParam(PARAM_INPUT)->value();
           if (inputMessage == "on") {
-              digitalWrite(output, HIGH); // Enciende el LED
+              digitalWrite(output, HIGH); 
           } else if (inputMessage == "off") {
-              digitalWrite(output, LOW); // Apaga el LED
+              digitalWrite(output, LOW); 
           }
       } else {
           inputMessage = "No state sent";
